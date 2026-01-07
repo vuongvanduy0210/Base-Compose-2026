@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "612865439569",
+    "project_id": "app052-dj-mixer-test-2ff74",
+    "storage_bucket": "app052-dj-mixer-test-2ff74.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:612865439569:android:877eb89bd8b9bc5501c570",
+        "android_client_info": {
+          "package_name": "com.duyvv.basecompose"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5sdtF3ErUJtWq3yG-GLy1Y-XTQRJwQJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

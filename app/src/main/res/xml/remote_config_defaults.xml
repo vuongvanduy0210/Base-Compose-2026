@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+
+  <entry>
+    <key>language_reopen</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>onboarding_reopen</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Inter_splash</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>AppOpen_resume</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Native_language</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Native_onboarding</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Native_permission</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Native_Exit</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Inter_home</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Banner_Collap_Home</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>Banner</key>
+    <value>true</value>
+  </entry>
+  <entry>
+    <key>Banner_splash</key>
+    <value>true</value>
+  </entry>
+
+
+  <entry>
+    <key>rate_out_app</key>
+    <value>1_3_5_7_9</value>
+  </entry>
+  <entry>
+    <key>rate_save_done</key>
+    <value>1_3_5_7_9</value>
+  </entry>
+  <entry>
+    <key>update_app</key>
+    <value>force_update</value>
+  </entry>
+  <entry>
+    <key>optional_update_times_show</key>
+    <value>3</value>
+  </entry>
+
+
+  <entry>
+    <key>enable_ump</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>LFO_1_High_floor</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>LFO_2_High_floor</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>ui_cta_native_lfo</key>
+    <value>top</value>
+  </entry>
+  <entry>
+    <key>ui_cta_native_ob1</key>
+    <value>top</value>
+  </entry>
+  <entry>
+    <key>ui_cta_native_ob2</key>
+    <value>top</value>
+  </entry>
+  <entry>
+    <key>ui_cta_native_ob3</key>
+    <value>top</value>
+  </entry>
+  <entry>
+    <key>config_api</key>
+    <value>https://api.speedtest.net/</value>
+  </entry>
+
+  <entry>
+    <key>enable_btn_save_lfo</key>
+    <value>true</value>
+  </entry>
+
+  <entry>
+    <key>config_rate_small_medium_LFO</key>
+    <value>100</value>
+  </entry>
+
+  <entry>
+    <key>config_cta_native_lfo_button</key>
+    <value>SMALL</value>
+  </entry>
+</defaults>

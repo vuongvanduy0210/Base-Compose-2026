@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Base Compose 2026</string>
+    <string name="this_action_may_contain_advertising">This action may contain advertising</string>
+    <string name="loading">Loading...</string>
+    <string name="language">Language</string>
+    <string name="ob1_content">Professional interface easy to use and user-friendly</string>
+    <string name="ob2_content">Experience like a professional Dj with the ultimate turn table</string>
+    <string name="ob3_content">Anywhere anytime music in the reach of your pocket</string>
+    <string name="next">Next</string>
+    <string name="get_started">Get Started</string>
+</resources>
