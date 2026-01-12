@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -15,13 +14,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
-import com.duyvv.basecompose.R
 
 @Composable
 fun AppText(
     modifier: Modifier = Modifier,
     text: String,
-    fontWeight: FontWeight = FontWeight.Normal,
+    fontFamily: FontFamily? = null,
+    fontWeight: FontWeight? = null,
     color: Color = Color.Unspecified,
     fontSize: TextUnit = TextUnit.Unspecified,
     fontStyle: FontStyle? = null,
@@ -36,12 +35,6 @@ fun AppText(
     onTextLayout: ((TextLayoutResult) -> Unit)? = null,
     style: TextStyle = LocalTextStyle.current
 ) {
-    val fontFamily = FontFamily(
-        Font(R.font.svn_gilroy_regular, FontWeight.Normal),
-        Font(R.font.svn_gilroy_medium, FontWeight.Medium),
-        Font(R.font.svn_gilroy_semibold, FontWeight.SemiBold),
-        Font(R.font.svn_gilroy_bold, FontWeight.Bold)
-    )
     Text(
         modifier = modifier,
         text = text,

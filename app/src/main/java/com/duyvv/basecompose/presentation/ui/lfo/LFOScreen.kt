@@ -1,6 +1,5 @@
 package com.duyvv.basecompose.presentation.ui.lfo
 
-import android.content.Intent
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
@@ -54,8 +53,6 @@ import com.duyvv.basecompose.presentation.common.composeview.LFONativeView
 import com.duyvv.basecompose.presentation.common.inVisible
 import com.duyvv.basecompose.presentation.common.logEvent
 import com.duyvv.basecompose.presentation.common.noAnimClickable
-import com.duyvv.basecompose.presentation.ui.main.MainActivity
-import com.duyvv.basecompose.presentation.ui.onboarding.OnboardingActivity
 import com.duyvv.basecompose.utils.NativeAdManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.combine
@@ -70,7 +67,8 @@ fun LFOScreen(
     modifier: Modifier = Modifier,
     viewModel: LFOViewModel = koinViewModel(),
     isFromSetting: Boolean = false,
-    onClickBack: () -> Unit
+    onClickBack: () -> Unit,
+    navigateNextScreen: () -> Unit,
 ) {
     TrackingScreen("language_fo_open")
     var isLogEventSelect by rememberSaveable { mutableStateOf(false) }
@@ -80,25 +78,6 @@ fun LFOScreen(
     val disableBack by AppConfigManager.getInstance().disableBack.collectAsState(null)
     val scope = rememberCoroutineScope()
 
-    suspend fun navigateNextScreen() {
-        val intent = when {
-            isFromSetting -> Intent(activity, MainActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-            }
-
-            viewModel.shouldShowOnboarding() -> Intent(activity, OnboardingActivity::class.java)
-            /*isOpenPermission() -> {
-                Intent(context, OnboardingActivity::class.java).apply {
-                    putExtra(OPEN_PERMISSION, true)
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                }
-            }*/
-
-            else -> Intent(activity, MainActivity::class.java)
-        }
-        activity?.startActivity(intent)
-        activity?.finish()
-    }
     BackHandler {
         if (isFromSetting) {
             onClickBack.invoke()
