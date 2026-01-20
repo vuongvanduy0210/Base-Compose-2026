@@ -10,6 +10,9 @@ import com.duyvv.basecompose.presentation.base.UiState
 data class LFOUiState(
     val listLanguage: List<Language> = emptyList(),
     val isShowNativeLFO2: Boolean = false,
+    val isShowNativeBig: Boolean? = null,
+    val nativeLayoutRes: Int? = null,
+    val disableBack: Boolean? = null
 ) : UiState
 
 sealed interface LFOIntent : MVIIntent {

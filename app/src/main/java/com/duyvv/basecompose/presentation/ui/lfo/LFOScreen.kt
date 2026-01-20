@@ -7,7 +7,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -25,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -42,21 +40,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.duyvv.basecompose.R
-import com.duyvv.basecompose.data.local.datastore.AppConfigManager
-import com.duyvv.basecompose.data.local.datastore.collectAsState
 import com.duyvv.basecompose.domain.model.Language
 import com.duyvv.basecompose.presentation.common.TrackingScreen
 import com.duyvv.basecompose.presentation.common.backgroundPrimary
 import com.duyvv.basecompose.presentation.common.borderPrimary
 import com.duyvv.basecompose.presentation.common.composeview.AppText
-import com.duyvv.basecompose.presentation.common.composeview.LFONativeView
+import com.duyvv.basecompose.presentation.common.composeview.NativeView
 import com.duyvv.basecompose.presentation.common.inVisible
 import com.duyvv.basecompose.presentation.common.logEvent
 import com.duyvv.basecompose.presentation.common.noAnimClickable
 import com.duyvv.basecompose.utils.NativeAdManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -68,20 +61,19 @@ fun LFOScreen(
     viewModel: LFOViewModel = koinViewModel(),
     isFromSetting: Boolean = false,
     onClickBack: () -> Unit,
-    navigateNextScreen: () -> Unit,
+    navigateNextScreen: suspend () -> Unit
 ) {
     TrackingScreen("language_fo_open")
     var isLogEventSelect by rememberSaveable { mutableStateOf(false) }
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val activity = LocalActivity.current
-    val disableBack by AppConfigManager.getInstance().disableBack.collectAsState(null)
     val scope = rememberCoroutineScope()
 
     BackHandler {
         if (isFromSetting) {
             onClickBack.invoke()
-        } else if (disableBack == false) {
+        } else if (uiState.disableBack == false) {
             scope.launch { navigateNextScreen() }
         }
     }
@@ -108,59 +100,44 @@ fun LFOScreen(
         }
     }
 
-    val configNativeLFOFlow = AppConfigManager.getInstance().configNativeLFO.asFlow
-    val configCTRNativeLFOFlow = AppConfigManager.getInstance().configCTRNativeLFO.asFlow
-    val adConfigState by remember {
-        combine(configNativeLFOFlow, configCTRNativeLFOFlow) { nativeConfig, ctrConfig ->
-            val isSmall = nativeConfig == "small"
-            val isSmallCTR = ctrConfig == "small"
-            val layoutRes = NativeAdManager.getLayoutAd(isSmall, isSmallCTR)
-            layoutRes to isSmall
-        }.flowOn(Dispatchers.IO)
-    }.collectAsStateWithLifecycle(initialValue = null)
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        /*Image(
-            modifier = Modifier.fillMaxSize(),
-            painter = painterResource(R.drawable.img_bg_common),
-            contentDescription = null,
-            contentScale = ContentScale.FillBounds
-        )*/
-        Column(modifier = modifier.fillMaxSize()) {
-            LFOHeader(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 15.dp, bottom = 10.dp)
-                    .padding(horizontal = 20.dp),
-                hasSelectedLanguage = uiState.listLanguage.any { it.isChoose },
-                onClickBack = onClickBack,
-                isFromSetting = isFromSetting,
-                onClickNext = {
-                    logEvent("language_fo_save_click")
-                    viewModel.sendIntent(LFOIntent.ApplySelectedLanguage(context))
+
+    Column(modifier = modifier.fillMaxSize()) {
+        LFOHeader(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 15.dp, bottom = 10.dp)
+                .padding(horizontal = 20.dp),
+            hasSelectedLanguage = uiState.listLanguage.any { it.isChoose },
+            onClickBack = onClickBack,
+            isFromSetting = isFromSetting,
+            onClickNext = {
+                logEvent("language_fo_save_click")
+                viewModel.sendIntent(LFOIntent.ApplySelectedLanguage(context))
+            }
+        )
+        ListLanguage(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp),
+            listLanguage = uiState.listLanguage,
+            onClickItem = {
+                if (!isLogEventSelect) {
+                    logEvent("language_fo_select")
+                    isLogEventSelect = true
                 }
-            )
-            ListLanguage(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .padding(horizontal = 14.dp),
-                listLanguage = uiState.listLanguage,
-                onClickItem = {
-                    if (!isLogEventSelect) {
-                        logEvent("language_fo_select")
-                        isLogEventSelect = true
-                    }
-                    viewModel.sendIntent(LFOIntent.SelectLanguage(it, !isFromSetting))
-                }
-            )
-            Log.d("ád", "LFOScreen: 11212")
-            LFONativeView(
+                viewModel.sendIntent(LFOIntent.SelectLanguage(it, !isFromSetting))
+            }
+        )
+        Log.d("ád", "LFOScreen: 11212")
+        if (uiState.isShowNativeBig != null) {
+            NativeView(
                 modifier = Modifier.fillMaxWidth(),
                 adPlacement = if (uiState.isShowNativeLFO2) NativeAdManager.NATIVE_LFO_2 else NativeAdManager.NATIVE_LFO_1,
-                layoutRes = adConfigState?.first,
-                shouldCallRequest = adConfigState != null,
-                isShowNativeSmall = adConfigState?.second == true
+                layoutRes = uiState.nativeLayoutRes,
+                shouldCallRequest = true,
+                isShowNativeSmall = uiState.isShowNativeBig == true
             )
         }
     }

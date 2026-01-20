@@ -85,6 +85,11 @@ class AppConfigManager private constructor(
             key = booleanPreferencesKey(KeyRemoteConfig.NATIVE_OB_2F),
             default = true
         )*/
+    val isShowNativeOB12FullScreen = booleanPref(
+        key = booleanPreferencesKey(KeyRemoteConfig.NATIVE_FULLSCREEN_OB12),
+        default = true
+    )
+
     val isShowNativeOB23FullScreen = booleanPref(
         key = booleanPreferencesKey(KeyRemoteConfig.NATIVE_FULLSCREEN_OB23),
         default = true

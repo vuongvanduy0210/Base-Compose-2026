@@ -13,6 +13,7 @@ object KeyRemoteConfig {
     const val NATIVE_LANGUAGE_S2_2F = "Native_language_S2_2F"
     const val NATIVE_ONBOARDING = "Native_onboard"
     const val NATIVE_OB_2F = "Native_onboard_2F"
+    const val NATIVE_FULLSCREEN_OB12 = "Native_OB12_fullscreen"
     const val NATIVE_FULLSCREEN_OB23 = "Native_OB23_fullscreen"
     const val INTER_ONBOARD = "Inter_onboard"
     const val INTER_ALL = "Inter_all"

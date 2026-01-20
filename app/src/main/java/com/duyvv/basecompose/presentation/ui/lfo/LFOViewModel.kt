@@ -4,9 +4,36 @@ import com.duyvv.basecompose.data.local.datastore.AppConfigManager
 import com.duyvv.basecompose.presentation.base.ComposeViewModel
 import com.duyvv.basecompose.utils.LanguageUtils
 import com.duyvv.basecompose.utils.NativeAdManager
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class LFOViewModel : ComposeViewModel<LFOUiState, LFOIntent, LFOEffect>() {
+
+    init {
+        combine(
+            AppConfigManager.getInstance().configNativeLFO.asFlow,
+            AppConfigManager.getInstance().configCTRNativeLFO.asFlow
+        ) { nativeConfig, ctrConfig ->
+            val isNativeSmall = nativeConfig == "small"
+            val isCtrSmall = ctrConfig == "small"
+            val layoutResId = NativeAdManager.getLayoutAd(
+                isNativeSmall = isNativeSmall,
+                isCtrSmall = isCtrSmall
+            )
+            updateUiState { copy(nativeLayoutRes = layoutResId, isShowNativeBig = !isNativeSmall) }
+        }.launchIn(viewModelSafetyScope)
+
+        AppConfigManager.getInstance().disableBack.asFlow.mapLatest {
+            updateUiState {
+                copy(disableBack = it)
+            }
+        }.launchIn(viewModelSafetyScope)
+    }
+
     override fun createInitialState(): LFOUiState {
         return LFOUiState()
     }

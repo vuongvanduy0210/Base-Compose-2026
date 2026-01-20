@@ -16,8 +16,8 @@ import com.duyvv.basecompose.utils.NativeAdManager
 import com.panda.sdk.ads.api.callback.AdViewCallback
 
 @Composable
-fun LFONativeView(
-    modifier: Modifier = Modifier.fillMaxWidth(),
+fun NativeView(
+    modifier: Modifier = Modifier,
     adPlacement: String,
     layoutRes: Int? = null,
     shouldCallRequest: Boolean = true,
@@ -43,8 +43,6 @@ fun LFONativeView(
                     Log.w("NativeView", "Activity or binding is null, skipping ads operation")
                     return@AndroidView binding.root
                 }
-                binding.shimmerBig.isVisible = !isShowNativeSmall
-                binding.shimmerMedium.isVisible = isShowNativeSmall
                 val shimmer = if (isShowNativeSmall) {
                     binding.shimmerMedium
                 } else {

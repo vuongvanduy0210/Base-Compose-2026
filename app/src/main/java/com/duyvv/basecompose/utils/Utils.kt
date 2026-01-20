@@ -1,6 +1,7 @@
 package com.duyvv.basecompose.utils
 
 import android.util.Log
+import com.duyvv.basecompose.data.local.datastore.AppConfigManager
 import kotlin.random.Random
 
 fun shouldShowAdOpenAOA(mediumPercentage: Int): Boolean {
@@ -16,4 +17,15 @@ fun shouldShowAdOpenAOA(mediumPercentage: Int): Boolean {
             random < mediumPercentage
         }
     }
+}
+
+suspend fun isOpenLfo(): Boolean {
+    return AppConfigManager.getInstance().languageCode.getValue().isBlank()
+            || AppConfigManager.getInstance().languageReopen.getValue()
+}
+
+suspend fun isOpenOnboarding(): Boolean {
+    return !AppConfigManager.getInstance().isOnboardingCompleted.getValue()
+            || AppConfigManager.getInstance().onboardReopen.getValue()
+
 }

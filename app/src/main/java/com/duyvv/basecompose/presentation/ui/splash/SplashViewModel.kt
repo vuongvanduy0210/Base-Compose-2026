@@ -6,6 +6,7 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.util.Log
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.LifecycleOwner
 import com.duyvv.basecompose.BuildConfig
 import com.duyvv.basecompose.data.local.datastore.AppConfigManager
@@ -16,6 +17,8 @@ import com.duyvv.basecompose.utils.BannerAdManager
 import com.duyvv.basecompose.utils.InterAdManager
 import com.duyvv.basecompose.utils.NativeAdManager
 import com.duyvv.basecompose.utils.RewardAdManager
+import com.duyvv.basecompose.utils.isOpenLfo
+import com.duyvv.basecompose.utils.isOpenOnboarding
 import com.duyvv.basecompose.utils.shouldShowAdOpenAOA
 import com.panda.sdk.ads.api.ConsentManager
 import com.panda.sdk.ads.api.FullscreenType
@@ -40,6 +43,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.atomic.AtomicBoolean
 
+@Stable
 class SplashViewModel(
     private val context: Application,
     private val configManager: ConfigManager
@@ -53,7 +57,7 @@ class SplashViewModel(
         val TAG = SplashViewModel::class.simpleName
     }
 
-    val PandaOpenAd by lazy { PandaOpenAd() }
+    val pandaOpenAd by lazy { PandaOpenAd() }
 
 
     private fun registerObserver(activity: Activity, owner: LifecycleOwner) {
@@ -69,7 +73,7 @@ class SplashViewModel(
                             preloadAds(activity)
                         }
                         delay(1000L)
-                        PandaOpenAd.show(activity, owner)
+                        pandaOpenAd.show(activity, owner)
                     }
                 true
             }
@@ -77,7 +81,7 @@ class SplashViewModel(
                 if (AppConfigManager.getInstance().configLogicPreload.getValue()) {
                     preloadAds(activity)
                 }
-                PandaOpenAd.show(activity, owner)
+                pandaOpenAd.show(activity, owner)
             }
         }
     }
@@ -167,7 +171,7 @@ class SplashViewModel(
                 }
             }
         ).validated()
-        PandaOpenAd.request(activity = activity, owner = owner, cfgRaw = cfg)
+        pandaOpenAd.request(activity = activity, owner = owner, cfgRaw = cfg)
     }
 
     private fun callNavigateNextScreen() {
@@ -343,16 +347,5 @@ class SplashViewModel(
                 false
             }
         }
-    }
-
-    suspend fun isOpenLfo(): Boolean {
-        return AppConfigManager.getInstance().languageCode.getValue().isBlank()
-                || AppConfigManager.getInstance().languageReopen.getValue()
-    }
-
-    suspend fun isOpenOnboarding(): Boolean {
-        return !AppConfigManager.getInstance().isOnboardingCompleted.getValue()
-                || AppConfigManager.getInstance().onboardReopen.getValue()
-
     }
 }

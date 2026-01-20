@@ -20,10 +20,9 @@ object NativeAdManager {
     const val NATIVE_LFO_1 = "Native_language"
     const val NATIVE_LFO_2 = "Native_language_S2"
     const val NATIVE_OB = "Native_onboard"
+    const val NATIVE_OB_FULL_12 = "Native_OB12_fullscreen"
     const val NATIVE_OB_FULL_23 = "Native_OB23_fullscreen"
-    const val NATIVE_HOME = "Native_home"
-    const val NATIVE_SOUND = "Native_sound"
-    const val NATIVE_GUIDE = "Native_guide"
+    const val NATIVE_ALL = "Native_all"
 
     suspend fun configAdPreload() {
         // LFO1
@@ -39,10 +38,9 @@ object NativeAdManager {
                 preferFrom = listOf(
                     NATIVE_OB,
                     NATIVE_LFO_2,
+                    NATIVE_OB_FULL_12,
                     NATIVE_OB_FULL_23,
-                    NATIVE_HOME,
-                    NATIVE_SOUND,
-                    NATIVE_GUIDE
+                    NATIVE_ALL
                 ),
                 layoutRes = R.layout.layout_native_big
             )
@@ -79,9 +77,29 @@ object NativeAdManager {
                 preferFrom = listOf(
                     NATIVE_LFO_1,
                     NATIVE_LFO_2,
+                    NATIVE_OB_FULL_12,
                     NATIVE_OB_FULL_23,
                 ),
                 layoutRes = R.layout.layout_native_big
+            )
+        )
+
+        // OB full 12
+        nativeAdHelper.setConfig(
+            NativeConfig(
+                nativeIds = listOfNotNull(
+                    BuildConfig.Native_OB12_fullscreen
+                ).filter { it.isNotBlank() },
+                canShowAds = AppConfigManager.getInstance().isShowNativeOB12FullScreen.getValue(),
+                canReload = true,
+                placement = NATIVE_OB_FULL_12,
+                preferFrom = listOf(
+                    NATIVE_OB,
+                    NATIVE_LFO_1,
+                    NATIVE_LFO_2,
+                    NATIVE_OB_FULL_23,
+                ),
+                layoutRes = R.layout.native_onboarding_full_screen
             )
         )
 
@@ -98,6 +116,7 @@ object NativeAdManager {
                     NATIVE_OB,
                     NATIVE_LFO_1,
                     NATIVE_LFO_2,
+                    NATIVE_OB_FULL_12,
                 ),
                 layoutRes = R.layout.native_onboarding_full_screen
             )
@@ -141,6 +160,12 @@ object NativeAdManager {
         if (isRequestNativeOnboarding.getAndSet(true)) return
         Log.d(TAG, "requestNativeOnboarding")
         request(activity, NATIVE_OB)
+    }
+
+    private val isRequestNativeObFull12 = AtomicBoolean(false)
+    fun requestNativeObFull12(activity: Activity) {
+        if (isRequestNativeObFull12.getAndSet(true)) return
+        request(activity = activity, placement = NATIVE_OB_FULL_12)
     }
 
     private val isRequestNativeObFull23 = AtomicBoolean(false)

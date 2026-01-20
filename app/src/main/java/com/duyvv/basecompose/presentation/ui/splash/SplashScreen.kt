@@ -53,6 +53,7 @@ import org.koin.androidx.compose.koinViewModel
 fun SplashScreen(
     modifier: Modifier = Modifier,
     viewModel: SplashViewModel = koinViewModel(),
+    navigateNextScreen: suspend () -> Unit = {}
 ) {
     TrackingScreen("splash_open")
     val context = LocalContext.current
@@ -65,25 +66,6 @@ fun SplashScreen(
         if (System.currentTimeMillis() - startTime >= 20_000) {
             viewModel.sendIntent(SplashIntent.SplashAdRequestCompleted)
         }
-    }
-
-    suspend fun navigateNextScreen() {
-        val intentAction =
-            if (viewModel.isOpenLfo()) {
-                Intent(activity, LFOActivity::class.java)
-            } else if (viewModel.isOpenOnboarding()) {
-                Intent(activity, OnboardingActivity::class.java)
-            } /*else if (isOpenPermission()) {
-                    Intent(this@SplashActivity, OnboardingActivity::class.java).apply {
-                        putExtra(OPEN_PERMISSION, true)
-                    }
-                }*/ else {
-                Intent(activity, MainActivity::class.java)
-            }
-        intentAction.flags =
-            Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-        context.startActivity(intentAction)
-        activity?.finish()
     }
 
     LaunchedEffect(Unit) {

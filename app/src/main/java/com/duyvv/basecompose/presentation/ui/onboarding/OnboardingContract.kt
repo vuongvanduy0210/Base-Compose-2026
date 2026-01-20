@@ -6,14 +6,16 @@ import com.duyvv.basecompose.presentation.base.MVIIntent
 import com.duyvv.basecompose.presentation.base.UiState
 
 data class OnboardingUiState(
-    val totalPage: Int = 4,
+    val pages: List<OnboardingPageType> = emptyList(),
     val currentPagePos: Int = 0,
-    val shouldShowNativeFull23: Boolean = true
+    val configEnableNativeOnboard: Boolean? = null,
+    val isShowNativeBig: Boolean? = null,
+    val disableBack: Boolean? = null,
 ) : UiState
 
 sealed interface OnboardingIntent : MVIIntent {
     data class SelectPage(val position: Int, val activity: Activity?) : OnboardingIntent
-    data class UpdateTotalPage(val totalPage: Int) : OnboardingIntent
+    data object RemoveNativeFull12Page : OnboardingIntent
     data object RemoveNativeFull23Page : OnboardingIntent
 }
 
