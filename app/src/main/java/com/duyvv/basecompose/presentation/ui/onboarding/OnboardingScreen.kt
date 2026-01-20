@@ -65,12 +65,6 @@ fun OnboardingScreen(
         }
     }
 
-    val (layoutResId, isShowNativeBig) = when (uiState.isShowNativeBig) {
-        true -> R.layout.layout_native_big to true
-        false -> R.layout.layout_native_medium to false
-        null -> null to null
-    }
-
     HorizontalPager(
         state = pagerState,
         modifier = modifier
@@ -90,8 +84,8 @@ fun OnboardingScreen(
                     actionLabelResId = R.string.next,
                     shouldCallRequestNative = isSelected && uiState.configEnableNativeOnboard == true,
                     position = 0,
-                    isShowNativeBig = isShowNativeBig,
-                    layoutNativeResId = layoutResId,
+                    isShowNativeBig = uiState.isShowNativeBig,
+                    layoutNativeResId = uiState.nativeLayoutRes,
                     onClickNextAction = {
                         logEvent("onboarding1_next_click")
                         onNavigateNextScreen()
@@ -123,8 +117,8 @@ fun OnboardingScreen(
                     actionLabelResId = R.string.next,
                     shouldCallRequestNative = isSelected && uiState.configEnableNativeOnboard == true,
                     position = 1,
-                    isShowNativeBig = isShowNativeBig,
-                    layoutNativeResId = layoutResId,
+                    isShowNativeBig = uiState.isShowNativeBig,
+                    layoutNativeResId = uiState.nativeLayoutRes,
                     onClickNextAction = {
                         logEvent("onboarding2_next_click")
                         onNavigateNextScreen()
@@ -154,8 +148,8 @@ fun OnboardingScreen(
                     actionLabelResId = R.string.next,
                     shouldCallRequestNative = isSelected && uiState.configEnableNativeOnboard == true,
                     position = 3,
-                    isShowNativeBig = isShowNativeBig,
-                    layoutNativeResId = layoutResId,
+                    isShowNativeBig = uiState.isShowNativeBig,
+                    layoutNativeResId = uiState.nativeLayoutRes,
                     onClickNextAction = {
                         logEvent("onboarding3_start_click")
                         onNavigateNextScreen()

@@ -23,10 +23,13 @@ class OnboardingViewModel :
             }
         }.launchIn(viewModelSafetyScope)
 
-        AppConfigManager.getInstance().configNativeOB.asFlow.mapLatest {
-            updateUiState {
-                copy(isShowNativeBig = it == "medium")
-            }
+        AppConfigManager.getInstance().configNativeOB.asFlow.mapLatest { nativeConfig ->
+            val isNativeSmall = nativeConfig == "small"
+            val layoutResId = NativeAdManager.getLayoutAd(
+                isNativeBig = !isNativeSmall,
+                isCtrBig = true
+            )
+            updateUiState { copy(nativeLayoutRes = layoutResId, isShowNativeBig = !isNativeSmall) }
         }.launchIn(viewModelSafetyScope)
 
 

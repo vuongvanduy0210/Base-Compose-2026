@@ -10,6 +10,7 @@ data class OnboardingUiState(
     val currentPagePos: Int = 0,
     val configEnableNativeOnboard: Boolean? = null,
     val isShowNativeBig: Boolean? = null,
+    val nativeLayoutRes: Int? = null,
     val disableBack: Boolean? = null,
 ) : UiState
 

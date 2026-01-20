@@ -50,6 +50,8 @@ import com.duyvv.basecompose.presentation.common.inVisible
 import com.duyvv.basecompose.presentation.common.logEvent
 import com.duyvv.basecompose.presentation.common.noAnimClickable
 import com.duyvv.basecompose.utils.NativeAdManager
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -121,7 +123,7 @@ fun LFOScreen(
                 .weight(1f)
                 .fillMaxWidth()
                 .padding(horizontal = 14.dp),
-            listLanguage = uiState.listLanguage,
+            listLanguage = uiState.listLanguage.toImmutableList(),
             onClickItem = {
                 if (!isLogEventSelect) {
                     logEvent("language_fo_select")
@@ -146,7 +148,7 @@ fun LFOScreen(
 @Composable
 fun ListLanguage(
     modifier: Modifier = Modifier,
-    listLanguage: List<Language>,
+    listLanguage: ImmutableList<Language>,
     onClickItem: (Language) -> Unit
 ) {
     LazyColumn(

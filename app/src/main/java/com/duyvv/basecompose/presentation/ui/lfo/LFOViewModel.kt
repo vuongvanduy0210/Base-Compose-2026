@@ -21,8 +21,8 @@ class LFOViewModel : ComposeViewModel<LFOUiState, LFOIntent, LFOEffect>() {
             val isNativeSmall = nativeConfig == "small"
             val isCtrSmall = ctrConfig == "small"
             val layoutResId = NativeAdManager.getLayoutAd(
-                isNativeSmall = isNativeSmall,
-                isCtrSmall = isCtrSmall
+                isNativeBig = !isNativeSmall,
+                isCtrBig = !isCtrSmall
             )
             updateUiState { copy(nativeLayoutRes = layoutResId, isShowNativeBig = !isNativeSmall) }
         }.launchIn(viewModelSafetyScope)

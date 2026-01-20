@@ -174,11 +174,11 @@ object NativeAdManager {
         request(activity = activity, placement = NATIVE_OB_FULL_23)
     }
 
-    fun getLayoutAd(isNativeSmall: Boolean, isCtrSmall: Boolean): Int {
-        return if (isNativeSmall) {
-            if (isCtrSmall) R.layout.layout_native_medium_ctr_small else R.layout.layout_native_medium
+    fun getLayoutAd(isNativeBig: Boolean, isCtrBig: Boolean): Int {
+        return if (isNativeBig) {
+            if (isCtrBig) R.layout.layout_native_big else R.layout.layout_native_big_ctr_small
         } else {
-            if (isCtrSmall) R.layout.layout_native_big_ctr_small else R.layout.layout_native_big
+            if (isCtrBig) R.layout.layout_native_medium else R.layout.layout_native_medium_ctr_small
         }
     }
 
