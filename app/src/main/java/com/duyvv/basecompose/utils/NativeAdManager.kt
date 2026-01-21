@@ -10,6 +10,7 @@ import com.duyvv.basecompose.R
 import com.duyvv.basecompose.data.local.datastore.AppConfigManager
 import com.panda.sdk.ads.api.PandaNative
 import com.panda.sdk.ads.api.callback.AdViewCallback
+import com.panda.sdk.ads.api.config.AdOptionVisibility
 import com.panda.sdk.ads.api.config.NativeConfig
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -130,6 +131,7 @@ object NativeAdManager {
         layoutRes: Int?,
         container: FrameLayout,
         shimmer: View,
+        adOptionVisibility: AdOptionVisibility = AdOptionVisibility.GONE,
         listener: AdViewCallback
     ) {
         nativeAdHelper.show(
@@ -139,7 +141,8 @@ object NativeAdManager {
             layoutRes = layoutRes,
             container = container,
             shimmer = shimmer,
-            listener = listener
+            listener = listener,
+            adVisibility = adOptionVisibility
         )
     }
 

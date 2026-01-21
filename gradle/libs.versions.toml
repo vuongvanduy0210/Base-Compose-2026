@@ -32,7 +32,7 @@ room = "2.8.4"
 installreferrer = "2.2"
 playServicesAds = "24.7.0"
 playServicesAdsIdentifier = "18.2.0"
-pandaAds = "0.0.2"
+pandaAds = "0.0.2-alpha09-alpha01"
 
 sdpAndroid = "1.1.1"
 sspAndroid = "1.1.1"

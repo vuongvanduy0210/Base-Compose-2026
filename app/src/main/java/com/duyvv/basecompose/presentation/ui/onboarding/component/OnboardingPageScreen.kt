@@ -31,6 +31,7 @@ import com.duyvv.basecompose.presentation.common.noAnimClickable
 import com.duyvv.basecompose.presentation.ui.theme.TextStyleBold
 import com.duyvv.basecompose.presentation.ui.theme.TextStyleSemiBold
 import com.duyvv.basecompose.utils.NativeAdManager
+import com.panda.sdk.ads.api.config.AdOptionVisibility
 
 @Composable
 fun OnboardingPageScreen(
@@ -78,7 +79,7 @@ fun OnboardingPageScreen(
                 modifier = Modifier.fillMaxWidth(),
                 adPlacement = NativeAdManager.NATIVE_OB,
                 layoutRes = layoutNativeResId,
-                adVisibility = View.INVISIBLE,
+                adVisibility = AdOptionVisibility.INVISIBLE,
                 isShowNativeSmall = !isShowNativeBig,
                 shouldCallRequest = shouldCallRequestNative
             )

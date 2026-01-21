@@ -4,7 +4,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
@@ -14,6 +13,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.duyvv.basecompose.databinding.LayoutItemNativeContentBinding
 import com.duyvv.basecompose.utils.NativeAdManager
 import com.panda.sdk.ads.api.callback.AdViewCallback
+import com.panda.sdk.ads.api.config.AdOptionVisibility
 
 @Composable
 fun NativeView(
@@ -21,7 +21,7 @@ fun NativeView(
     adPlacement: String,
     layoutRes: Int? = null,
     shouldCallRequest: Boolean = true,
-    adVisibility: Int = View.GONE,
+    adVisibility: AdOptionVisibility = AdOptionVisibility.GONE,
     isShowNativeSmall: Boolean = false,
     onShowBtnCloseAds: (Boolean) -> Unit = {},
     onAdLoaded: () -> Unit = {}
@@ -57,6 +57,7 @@ fun NativeView(
                         layoutRes = layoutRes,
                         container = binding.frAds,
                         shimmer = shimmer,
+                        adOptionVisibility = adVisibility,
                         listener = object : AdViewCallback {
                             override fun onShowFailed(
                                 placement: String,
@@ -79,7 +80,6 @@ fun NativeView(
                                     "NativeView",
                                     "onLoadFailed: placement=$placement, code=$code, message=$message"
                                 )
-                                shimmer.visibility = adVisibility
                                 onShowBtnCloseAds.invoke(false)
                             }
 
@@ -95,7 +95,10 @@ fun NativeView(
                         }
                     )
                 } else {
-                    shimmer.visibility = adVisibility
+                    shimmer.visibility = when (adVisibility) {
+                        AdOptionVisibility.GONE -> View.GONE
+                        AdOptionVisibility.INVISIBLE -> View.INVISIBLE
+                    }
                 }
                 binding.root
             },
