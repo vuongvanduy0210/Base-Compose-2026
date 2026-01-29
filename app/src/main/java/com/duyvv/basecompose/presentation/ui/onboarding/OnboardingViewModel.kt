@@ -1,6 +1,7 @@
 package com.duyvv.basecompose.presentation.ui.onboarding
 
 import android.app.Activity
+import android.util.Log
 import androidx.compose.runtime.Stable
 import com.duyvv.basecompose.data.local.datastore.AppConfigManager
 import com.duyvv.basecompose.presentation.base.ComposeViewModel
@@ -91,20 +92,21 @@ class OnboardingViewModel :
 
     private fun preloadAdsForNextPage(currentPagePos: Int, activity: Activity?) {
         val pages = uiStateValue.pages
-        val nextPosition = currentPagePos + 1
-        if (nextPosition >= pages.size - 1) {
-            if (!isInterObLoaded) {
-                activity?.let {
-                    isInterObLoaded = true
-                    InterAdManager.requestInter(
-                        activity = it,
-                        adPlacement = InterAdManager.INTER_ONBOARD
-                    )
-                }
+        if (pages.isEmpty()) return
+        Log.d("TAG++++", "preloadAdsForNextPage: $currentPagePos, ${pages.size}")
+        // check preload inter ob
+        if (currentPagePos >= pages.size - 2 && !isInterObLoaded) {
+            activity?.let {
+                isInterObLoaded = true
+                InterAdManager.requestInter(
+                    activity = it,
+                    adPlacement = InterAdManager.INTER_ONBOARD
+                )
             }
-            return
         }
 
+        // check preload native
+        val nextPosition = currentPagePos + 1
         val nextPageType = pages.getOrNull(nextPosition)
         when (nextPageType) {
             OnboardingPageType.NATIVE_FULL_12 -> {
